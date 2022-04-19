@@ -2,6 +2,8 @@ import time
 
 import serial
 
+from User.Code.bishe import img_to_num
+
 i = 1
 recieveFlag = b'$'
 sendFlag = b'%'
@@ -47,6 +49,12 @@ if serial.isOpen():
                             serial.write(b'$')
                     # print(i)
                     time.sleep(0.05)
+        result = img_to_num(filename)
+        if result=="":
+            serial.write("%没有车牌&".encode("gbk"))
+        else:
+            result = "%"+result+"&"
+            serial.write(result.encode("gbk"))
 else:
     print('串口未打开')
 
